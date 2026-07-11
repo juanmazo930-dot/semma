@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Semma — Your Digital Legacy, Protected Forever</title>
+<meta name="description" content="Semma is the encrypted vault that delivers your digital legacy — crypto, accounts, memories — to the people you love, when it matters most.">
+<style>
+  /* ============================================================
+     SEMMA — Design System
+     Palette: night navy, emerald (trust/growth), gold (legacy)
+     ============================================================ */
+  :root {
+    --navy-900: #070D1A;
+    --navy-800: #0B1426;
+    --navy-700: #101D38;
+    --navy-600: #1A2C4E;
+    --emerald: #10B981;
+    --emerald-bright: #34D399;
+    --gold: #D4AF37;
+    --gold-bright: #F0CE5E;
+    --text: #F8FAFC;
+    --text-muted: #94A3B8;
+    --text-dim: #64748B;
+    --radius: 16px;
+    --font: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    --font-serif: Georgia, 'Times New Roman', serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font);
+    background: var(--navy-900);
+    color: var(--text);
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+
+  /* ---------- Animated background particles ---------- */
+  #particles {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* ---------- Navigation ---------- */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 6%;
+    background: rgba(7, 13, 26, 0.75);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(148, 163, 184, 0.08);
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+  .logo-mark {
+    width: 38px; height: 38px;
+    background: var(--emerald);
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    font-family: var(--font-serif);
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--navy-900);
+    box-shadow: 0 0 24px rgba(16, 185, 129, 0.35);
+    animation: logoGlow 3s ease-in-out infinite;
+  }
+  @keyframes logoGlow {
+    0%, 100% { box-shadow: 0 0 18px rgba(16, 185, 129, 0.25); }
+    50%      { box-shadow: 0 0 34px rgba(16, 185, 129, 0.55); }
+  }
+  .logo-text {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: 4px;
+    color: var(--text);
+  }
+  .nav-right { display: flex; align-items: center; gap: 18px; }
+  .lang-toggle {
+    background: var(--navy-700);
+    border: 1px solid rgba(148, 163, 184, 0.15);
+    color: var(--text-muted);
+    padding: 7px 16px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all .25s;
+  }
+  .lang-toggle:hover { color: var(--emerald-bright); border-color: var(--emerald); }
+  .nav-cta {
+    background: var(--emerald);
+    color: var(--navy-900);
+    padding: 9px 22px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none;
+    transition: all .25s;
+  }
+  .nav-cta:hover { background: var(--emerald-bright); transform: translateY(-2px); }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 120px 6% 60px;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  .hero-left { flex: 1 1 480px; max-width: 620px; }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(212, 175, 55, 0.1);
+    border: 1px solid rgba(212, 175, 55, 0.35);
+    color: var(--gold-bright);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 6px 16px;
+    border-radius: 999px;
+    margin-bottom: 24px;
+    animation: fadeUp .8s ease both;
+  }
+  .hero-badge::before {
+    content: '';
+    width: 8px; height: 8px;
+    background: var(--gold);
+    border-radius: 50%;
+    animation: pulseDot 2s infinite;
+  }
+  @keyframes pulseDot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%      { opacity: .5; transform: scale(1.4); }
+  }
+  h1 {
+    font-size: clamp(38px, 5.5vw, 64px);
+    line-height: 1.12;
+    font-weight: 800;
+    letter-spacing: -1px;
+    animation: fadeUp .8s .15s ease both;
+  }
+  h1 .accent {
+    background: linear-gradient(90deg, var(--emerald-bright), var(--gold-bright));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .hero-sub {
+    margin-top: 22px;
+    font-size: 18px;
+    color: var(--text-muted);
+    max-width: 540px;
+    animation: fadeUp .8s .3s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(26px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Waitlist form */
+  .waitlist {
+    margin-top: 36px;
+    display: flex;
+    gap: 12px;
+    max-width: 500px;
+    flex-wrap: wrap;
+    animation: fadeUp .8s .45s ease both;
+  }
+  .waitlist input {
+    flex: 1 1 260px;
+    background: var(--navy-700);
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    border-radius: 12px;
+    padding: 15px 20px;
+    color: var(--text);
+    font-size: 15px;
+    outline: none;
+    transition: border-color .25s, box-shadow .25s;
+  }
+  .waitlist input:focus {
+    border-color: var(--emerald);
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.12);
+  }
+  .waitlist button {
+    background: linear-gradient(135deg, var(--emerald), #0d9668);
+    color: var(--navy-900);
+    border: none;
+    border-radius: 12px;
+    padding: 15px 30px;
+    font-size: 15px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all .25s;
+  }
+  .waitlist button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(16, 185, 129, 0.35);
+  }
+  .form-msg { margin-top: 14px; font-size: 14px; min-height: 20px; }
+  .form-msg.ok { color: var(--emerald-bright); }
+  .form-msg.err { color: #F87171; }
+  .hero-trust {
+    margin-top: 18px;
+    font-size: 13px;
+    color: var(--text-dim);
+    animation: fadeUp .8s .6s ease both;
+  }
+
+  /* Hero visual — the vault & heartbeat */
+  .hero-right {
+    flex: 1 1 380px;
+    display: grid;
+    place-items: center;
+    animation: fadeUp 1s .5s ease both;
+  }
+  .vault-scene { width: 100%; max-width: 440px; }
+  .ring-spin   { transform-origin: 220px 190px; animation: spin 24s linear infinite; }
+  .ring-spin-r { transform-origin: 220px 190px; animation: spinR 36s linear infinite; }
+  @keyframes spin  { to { transform: rotate(360deg); } }
+  @keyframes spinR { to { transform: rotate(-360deg); } }
+  .heartbeat-path {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: drawBeat 4s ease-in-out infinite;
+  }
+  @keyframes drawBeat {
+    0%   { stroke-dashoffset: 1000; opacity: 0; }
+    15%  { opacity: 1; }
+    55%  { stroke-dashoffset: 0; opacity: 1; }
+    85%  { stroke-dashoffset: 0; opacity: 1; }
+    100% { stroke-dashoffset: -300; opacity: 0; }
+  }
+  .vault-core { animation: corePulse 4s ease-in-out infinite; transform-origin: 220px 190px; }
+  @keyframes corePulse {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.06); }
+  }
+
+  /* ---------- Stats strip ---------- */
+  .stats {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    gap: clamp(30px, 7vw, 100px);
+    flex-wrap: wrap;
+    padding: 50px 6%;
+    border-top: 1px solid rgba(148, 163, 184, 0.08);
+    border-bottom: 1px solid rgba(148, 163, 184, 0.08);
+    background: rgba(11, 20, 38, 0.6);
+  }
+  .stat { text-align: center; }
+  .stat-num {
+    font-size: clamp(30px, 4vw, 44px);
+    font-weight: 800;
+    color: var(--gold-bright);
+    font-variant-numeric: tabular-nums;
+  }
+  .stat-label { font-size: 14px; color: var(--text-muted); margin-top: 4px; max-width: 200px; }
+
+  /* ---------- Sections ---------- */
+  section { position: relative; z-index: 1; padding: 100px 6%; }
+  .section-tag {
+    color: var(--emerald-bright);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+  h2 {
+    font-size: clamp(30px, 4vw, 44px);
+    font-weight: 800;
+    margin-top: 12px;
+    letter-spacing: -0.5px;
+  }
+  .section-sub { color: var(--text-muted); margin-top: 14px; max-width: 620px; font-size: 17px; }
+
+  /* Scroll reveal */
+  .reveal { opacity: 0; transform: translateY(36px); transition: opacity .8s ease, transform .8s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* How it works */
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 24px; margin-top: 54px; }
+  .step {
+    background: var(--navy-800);
+    border: 1px solid rgba(148, 163, 184, 0.1);
+    border-radius: var(--radius);
+    padding: 34px 28px;
+    position: relative;
+    overflow: hidden;
+    transition: transform .3s, border-color .3s;
+  }
+  .step:hover { transform: translateY(-6px); border-color: rgba(16, 185, 129, 0.4); }
+  .step-num {
+    font-family: var(--font-serif);
+    font-size: 64px;
+    font-weight: bold;
+    color: rgba(16, 185, 129, 0.14);
+    position: absolute;
+    top: 6px; right: 20px;
+    line-height: 1;
+  }
+  .step-icon { font-size: 34px; margin-bottom: 18px; }
+  .step h3 { font-size: 20px; margin-bottom: 10px; }
+  .step p { color: var(--text-muted); font-size: 15px; }
+
+  /* Features */
+  .features-wrap { background: rgba(11, 20, 38, 0.6); }
+  .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 22px; margin-top: 54px; }
+  .feature {
+    border: 1px solid rgba(148, 163, 184, 0.1);
+    border-radius: var(--radius);
+    padding: 30px 26px;
+    background: var(--navy-800);
+    transition: transform .3s, box-shadow .3s;
+  }
+  .feature:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+  }
+  .feature-icon {
+    width: 52px; height: 52px;
+    border-radius: 14px;
+    display: grid;
+    place-items: center;
+    font-size: 24px;
+    margin-bottom: 18px;
+    background: rgba(16, 185, 129, 0.12);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+  }
+  .feature.gold .feature-icon { background: rgba(212, 175, 55, 0.12); border-color: rgba(212, 175, 55, 0.35); }
+  .feature h3 { font-size: 18px; margin-bottom: 8px; }
+  .feature p { color: var(--text-muted); font-size: 14.5px; }
+
+  /* Security banner */
+  .security {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    flex-wrap: wrap;
+  }
+  .security-left { flex: 1 1 420px; }
+  .security-right { flex: 1 1 320px; display: grid; place-items: center; }
+  .shield-anim { animation: shieldFloat 5s ease-in-out infinite; }
+  @keyframes shieldFloat {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-14px); }
+  }
+  .security-points { list-style: none; margin-top: 28px; }
+  .security-points li {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    margin-bottom: 18px;
+    color: var(--text-muted);
+    font-size: 15.5px;
+  }
+  .security-points li::before {
+    content: '✓';
+    color: var(--emerald-bright);
+    font-weight: 800;
+    background: rgba(16, 185, 129, 0.12);
+    border-radius: 50%;
+    width: 24px; height: 24px;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    font-size: 13px;
+  }
+
+  /* Final CTA */
+  .final-cta {
+    text-align: center;
+    background:
+      radial-gradient(ellipse at 50% 100%, rgba(16, 185, 129, 0.12), transparent 60%),
+      var(--navy-800);
+    border-top: 1px solid rgba(148, 163, 184, 0.08);
+  }
+  .final-cta .waitlist { margin-left: auto; margin-right: auto; justify-content: center; }
+
+  footer {
+    position: relative;
+    z-index: 1;
+    padding: 40px 6%;
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 13.5px;
+    border-top: 1px solid rgba(148, 163, 184, 0.08);
+  }
+  footer .logo-text { font-size: 15px; letter-spacing: 3px; }
+
+  @media (max-width: 640px) {
+    .hero { padding-top: 100px; }
+    .nav-cta { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="particles" aria-hidden="true"></canvas>
+
+<nav>
+  <a class="logo" href="#">
+    <span class="logo-mark">S</span>
+    <span class="logo-text">SEMMA</span>
+  </a>
+  <div class="nav-right">
+    <button class="lang-toggle" id="langToggle" aria-label="Cambiar idioma">ES</button>
+    <a class="nav-cta" href="#join" data-i18n="nav_cta">Join the waitlist</a>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="hero-left">
+    <span class="hero-badge" data-i18n="badge">Early access — London → the world</span>
+    <h1 data-i18n-html="h1">Your digital legacy,<br><span class="accent">protected forever.</span></h1>
+    <p class="hero-sub" data-i18n="sub">
+      Crypto, accounts, photos, passwords, final wishes. Semma is the encrypted vault
+      that delivers what matters to the people you love — only when it matters most.
+    </p>
+    <form class="waitlist" id="waitlistForm">
+      <input type="email" id="emailInput" required data-i18n-ph="email_ph" placeholder="your@email.com" aria-label="Email">
+      <button type="submit" data-i18n="join_btn">Get early access</button>
+    </form>
+    <p class="form-msg" id="formMsg" role="status"></p>
+    <p class="hero-trust" data-i18n="trust">🔒 Zero-knowledge encryption. Not even we can read your vault.</p>
+  </div>
+
+  <div class="hero-right">
+    <!-- Vault: rotating security rings + heartbeat (the dead man's switch) -->
+    <svg class="vault-scene" viewBox="0 0 440 380" role="img" aria-label="Animated vault with heartbeat line">
+      <defs>
+        <linearGradient id="beatGrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#10B981"/>
+          <stop offset="1" stop-color="#F0CE5E"/>
+        </linearGradient>
+      </defs>
+      <!-- outer ring -->
+      <g class="ring-spin">
+        <circle cx="220" cy="190" r="150" fill="none" stroke="#1A2C4E" stroke-width="2" stroke-dasharray="6 10"/>
+        <circle cx="220" cy="40" r="5" fill="#D4AF37"/>
+      </g>
+      <!-- middle ring -->
+      <g class="ring-spin-r">
+        <circle cx="220" cy="190" r="115" fill="none" stroke="#1A2C4E" stroke-width="2" stroke-dasharray="3 8"/>
+        <circle cx="335" cy="190" r="4" fill="#10B981"/>
+      </g>
+      <!-- vault core -->
+      <g class="vault-core">
+        <circle cx="220" cy="190" r="80" fill="#0B1426" stroke="#10B981" stroke-width="2.5"/>
+        <circle cx="220" cy="190" r="80" fill="none" stroke="#10B981" stroke-width="10" opacity="0.08"/>
+        <!-- heartbeat line across the core -->
+        <path class="heartbeat-path"
+          d="M150 190 L185 190 L196 168 L208 212 L220 152 L232 224 L244 190 L256 190 L290 190"
+          fill="none" stroke="url(#beatGrad)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </g>
+      <!-- padlock keyhole -->
+      <circle cx="220" cy="292" r="14" fill="none" stroke="#D4AF37" stroke-width="2.5"/>
+      <rect x="217" y="298" width="6" height="12" rx="3" fill="#D4AF37"/>
+    </svg>
+  </div>
+</header>
+
+<!-- ============ STATS ============ -->
+<div class="stats">
+  <div class="stat">
+    <div class="stat-num" data-count="20" data-suffix="%">0%</div>
+    <div class="stat-label" data-i18n="stat1">of all Bitcoin is estimated lost or stranded forever</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num" data-count="240" data-suffix="+">0</div>
+    <div class="stat-label" data-i18n="stat2">online accounts the average person leaves behind</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num" data-count="90" data-suffix="%">0%</div>
+    <div class="stat-label" data-i18n="stat3">of people have no plan for their digital legacy</div>
+  </div>
+</div>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section id="how">
+  <div class="reveal">
+    <span class="section-tag" data-i18n="how_tag">How it works</span>
+    <h2 data-i18n="how_title">Three steps. Total peace of mind.</h2>
+    <p class="section-sub" data-i18n="how_sub">Set it up once. Semma quietly watches over everything, for as long as you live — and beyond.</p>
+  </div>
+  <div class="steps">
+    <div class="step reveal">
+      <span class="step-num">1</span>
+      <div class="step-icon">🗄️</div>
+      <h3 data-i18n="s1_t">Build your vault</h3>
+      <p data-i18n="s1_p">List your digital assets — crypto wallets, bank accounts, cloud photos, domains — and leave encrypted instructions for each one. Everything is sealed in your browser before it ever reaches our servers.</p>
+    </div>
+    <div class="step reveal">
+      <span class="step-num">2</span>
+      <div class="step-icon">💓</div>
+      <h3 data-i18n="s2_t">Stay connected</h3>
+      <p data-i18n="s2_p">Semma checks in with you on your schedule — a single tap confirms you're fine. Miss several check-ins and our escalation protocol begins, carefully and gradually.</p>
+    </div>
+    <div class="step reveal">
+      <span class="step-num">3</span>
+      <div class="step-icon">🕊️</div>
+      <h3 data-i18n="s3_t">Legacy delivered</h3>
+      <p data-i18n="s3_p">Only when the protocol completes do your chosen people receive the keys to unlock your instructions. Nothing lost. Nothing left in limbo. Your story, handed over with care.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FEATURES ============ -->
+<section class="features-wrap" id="features">
+  <div class="reveal">
+    <span class="section-tag" data-i18n="f_tag">Why Semma</span>
+    <h2 data-i18n="f_title">Built like a bank. Feels like a promise.</h2>
+  </div>
+  <div class="features">
+    <div class="feature reveal">
+      <div class="feature-icon">🔐</div>
+      <h3 data-i18n="f1_t">Zero-knowledge encryption</h3>
+      <p data-i18n="f1_p">Your secrets are encrypted on your device. We store only sealed boxes — we couldn't peek inside even if we wanted to.</p>
+    </div>
+    <div class="feature reveal gold">
+      <div class="feature-icon">⏳</div>
+      <h3 data-i18n="f2_t">The living switch</h3>
+      <p data-i18n="f2_p">A gentle check-in system that adapts to your life. Travelling? Pause it. Back home? One tap and Semma sleeps again.</p>
+    </div>
+    <div class="feature reveal">
+      <div class="feature-icon">👥</div>
+      <h3 data-i18n="f3_t">Guardians you choose</h3>
+      <p data-i18n="f3_p">Assign different assets to different people. Your brother gets the crypto keys, your best friend handles your socials.</p>
+    </div>
+    <div class="feature reveal gold">
+      <div class="feature-icon">🛡️</div>
+      <h3 data-i18n="f4_t">False-alarm proof</h3>
+      <p data-i18n="f4_p">Multi-stage verification and optional waiting periods make sure nothing is ever released by accident.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECURITY ============ -->
+<section class="security" id="security">
+  <div class="security-left reveal">
+    <span class="section-tag" data-i18n="sec_tag">Security first</span>
+    <h2 data-i18n-html="sec_title">We guard the box.<br>Only you hold the key.</h2>
+    <ul class="security-points">
+      <li data-i18n="sec1">Client-side AES-256 encryption — data is sealed before leaving your device</li>
+      <li data-i18n="sec2">GDPR compliant by design, built in the UK</li>
+      <li data-i18n="sec3">No passwords stored in plain text. Ever.</li>
+      <li data-i18n="sec4">Complements your legal will — the missing piece your solicitor can't provide</li>
+    </ul>
+  </div>
+  <div class="security-right reveal">
+    <svg class="shield-anim" width="240" height="280" viewBox="0 0 240 280" role="img" aria-label="Security shield">
+      <path d="M120 10 L220 50 L220 140 C220 210 175 250 120 270 C65 250 20 210 20 140 L20 50 Z"
+        fill="#0B1426" stroke="#10B981" stroke-width="3"/>
+      <path d="M120 30 L200 62 L200 140 C200 198 162 232 120 250 C78 232 40 198 40 140 L40 62 Z"
+        fill="none" stroke="#D4AF37" stroke-width="1.5" stroke-dasharray="5 7" opacity="0.7"/>
+      <path d="M85 140 L110 165 L160 105" fill="none" stroke="#34D399" stroke-width="8"
+        stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ============ FINAL CTA ============ -->
+<section class="final-cta" id="join">
+  <div class="reveal">
+    <h2 data-i18n="cta_title">Be there from the beginning.</h2>
+    <p class="section-sub" style="margin-left:auto;margin-right:auto;" data-i18n="cta_sub">
+      Join the waitlist and get lifetime founder pricing when we launch.
+    </p>
+    <form class="waitlist" id="waitlistForm2" style="margin-top:34px;">
+      <input type="email" id="emailInput2" required data-i18n-ph="email_ph" placeholder="your@email.com" aria-label="Email">
+      <button type="submit" data-i18n="join_btn2">Join the waitlist</button>
+    </form>
+    <p class="form-msg" id="formMsg2" role="status"></p>
+  </div>
+</section>
+
+<footer>
+  <span class="logo-text">SEMMA</span>
+  <p style="margin-top:10px;" data-i18n="footer">Made with purpose in London · © 2026 Semma · Your legacy, delivered.</p>
+</footer>
+
+<script>
+/* ============================================================
+   1. PARTICLES — subtle floating dots (cheap on resources)
+   ============================================================ */
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
+let dots = [];
+
+function initParticles() {
+  canvas.width = innerWidth;
+  canvas.height = innerHeight;
+  const count = Math.min(70, Math.floor(innerWidth / 22));
+  dots = Array.from({ length: count }, () => ({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    r: Math.random() * 1.8 + 0.4,
+    vx: (Math.random() - 0.5) * 0.25,
+    vy: (Math.random() - 0.5) * 0.25,
+    gold: Math.random() < 0.18
+  }));
+}
+
+function drawParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  for (const d of dots) {
+    d.x += d.vx; d.y += d.vy;
+    if (d.x < 0 || d.x > canvas.width) d.vx *= -1;
+    if (d.y < 0 || d.y > canvas.height) d.vy *= -1;
+    ctx.beginPath();
+    ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+    ctx.fillStyle = d.gold ? 'rgba(212,175,55,0.5)' : 'rgba(16,185,129,0.35)';
+    ctx.fill();
+  }
+  requestAnimationFrame(drawParticles);
+}
+initParticles();
+drawParticles();
+addEventListener('resize', initParticles);
+
+/* ============================================================
+   2. SCROLL REVEAL
+   ============================================================ */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.15 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+/* ============================================================
+   3. ANIMATED COUNTERS
+   ============================================================ */
+const statObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const el = e.target;
+    statObserver.unobserve(el);
+    const target = +el.dataset.count;
+    const suffix = el.dataset.suffix || '';
+    const t0 = performance.now();
+    (function tick(now) {
+      const p = Math.min((now - t0) / 1800, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(target * eased) + suffix;
+      if (p < 1) requestAnimationFrame(tick);
+    })(t0);
+  });
+}, { threshold: 0.6 });
+document.querySelectorAll('.stat-num').forEach(el => statObserver.observe(el));
+
+/* ============================================================
+   4. WAITLIST FORM
+   Replace FORM_ENDPOINT with your free Formspree URL:
+   https://formspree.io  →  e.g. 'https://formspree.io/f/abcd1234'
+   ============================================================ */
+const FORM_ENDPOINT = ''; // ← pega aquí tu endpoint de Formspree
+
+function bindForm(formId, inputId, msgId) {
+  const form = document.getElementById(formId);
+  const input = document.getElementById(inputId);
+  const msg = document.getElementById(msgId);
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const email = input.value.trim();
+    msg.className = 'form-msg';
+    if (FORM_ENDPOINT) {
+      try {
+        const r = await fetch(FORM_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({ email })
+        });
+        if (!r.ok) throw new Error();
+        msg.textContent = i18n[lang].msg_ok;
+        msg.classList.add('ok');
+        input.value = '';
+      } catch {
+        msg.textContent = i18n[lang].msg_err;
+        msg.classList.add('err');
+      }
+    } else {
+      // demo mode until Formspree is connected
+      msg.textContent = i18n[lang].msg_demo;
+      msg.classList.add('ok');
+      input.value = '';
+    }
+  });
+}
+bindForm('waitlistForm', 'emailInput', 'formMsg');
+bindForm('waitlistForm2', 'emailInput2', 'formMsg2');
+
+/* ============================================================
+   5. BILINGUAL EN / ES
+   ============================================================ */
+const i18n = {
+  en: {
+    nav_cta: 'Join the waitlist',
+    badge: 'Early access — London → the world',
+    h1: 'Your digital legacy,<br><span class="accent">protected forever.</span>',
+    sub: 'Crypto, accounts, photos, passwords, final wishes. Semma is the encrypted vault that delivers what matters to the people you love — only when it matters most.',
+    email_ph: 'your@email.com',
+    join_btn: 'Get early access',
+    join_btn2: 'Join the waitlist',
+    trust: '🔒 Zero-knowledge encryption. Not even we can read your vault.',
+    stat1: 'of all Bitcoin is estimated lost or stranded forever',
+    stat2: 'online accounts the average person leaves behind',
+    stat3: 'of people have no plan for their digital legacy',
+    how_tag: 'How it works',
+    how_title: 'Three steps. Total peace of mind.',
+    how_sub: "Set it up once. Semma quietly watches over everything, for as long as you live — and beyond.",
+    s1_t: 'Build your vault',
+    s1_p: 'List your digital assets — crypto wallets, bank accounts, cloud photos, domains — and leave encrypted instructions for each one. Everything is sealed in your browser before it ever reaches our servers.',
+    s2_t: 'Stay connected',
+    s2_p: "Semma checks in with you on your schedule — a single tap confirms you're fine. Miss several check-ins and our escalation protocol begins, carefully and gradually.",
+    s3_t: 'Legacy delivered',
+    s3_p: 'Only when the protocol completes do your chosen people receive the keys to unlock your instructions. Nothing lost. Nothing left in limbo. Your story, handed over with care.',
+    f_tag: 'Why Semma',
+    f_title: 'Built like a bank. Feels like a promise.',
+    f1_t: 'Zero-knowledge encryption',
+    f1_p: "Your secrets are encrypted on your device. We store only sealed boxes — we couldn't peek inside even if we wanted to.",
+    f2_t: 'The living switch',
+    f2_p: 'A gentle check-in system that adapts to your life. Travelling? Pause it. Back home? One tap and Semma sleeps again.',
+    f3_t: 'Guardians you choose',
+    f3_p: 'Assign different assets to different people. Your brother gets the crypto keys, your best friend handles your socials.',
+    f4_t: 'False-alarm proof',
+    f4_p: 'Multi-stage verification and optional waiting periods make sure nothing is ever released by accident.',
+    sec_tag: 'Security first',
+    sec_title: 'We guard the box.<br>Only you hold the key.',
+    sec1: 'Client-side AES-256 encryption — data is sealed before leaving your device',
+    sec2: 'GDPR compliant by design, built in the UK',
+    sec3: 'No passwords stored in plain text. Ever.',
+    sec4: "Complements your legal will — the missing piece your solicitor can't provide",
+    cta_title: 'Be there from the beginning.',
+    cta_sub: 'Join the waitlist and get lifetime founder pricing when we launch.',
+    footer: 'Made with purpose in London · © 2026 Semma · Your legacy, delivered.',
+    msg_ok: "✓ You're on the list. Welcome to Semma.",
+    msg_err: 'Something went wrong — please try again.',
+    msg_demo: "✓ You're on the list. Welcome to Semma. (demo mode)"
+  },
+  es: {
+    nav_cta: 'Únete a la lista',
+    badge: 'Acceso anticipado — Londres → el mundo',
+    h1: 'Tu legado digital,<br><span class="accent">protegido para siempre.</span>',
+    sub: 'Cripto, cuentas, fotos, contraseñas, últimas voluntades. Semma es la bóveda cifrada que entrega lo que importa a las personas que quieres — solo cuando más importa.',
+    email_ph: 'tu@email.com',
+    join_btn: 'Acceso anticipado',
+    join_btn2: 'Únete a la lista',
+    trust: '🔒 Cifrado de conocimiento cero. Ni nosotros podemos leer tu bóveda.',
+    stat1: 'de todo el Bitcoin se estima perdido o inaccesible para siempre',
+    stat2: 'cuentas online deja atrás una persona promedio',
+    stat3: 'de las personas no tiene plan para su legado digital',
+    how_tag: 'Cómo funciona',
+    how_title: 'Tres pasos. Tranquilidad total.',
+    how_sub: 'Configúralo una vez. Semma vigila todo en silencio, mientras vivas — y después.',
+    s1_t: 'Crea tu bóveda',
+    s1_p: 'Registra tus activos digitales — wallets cripto, cuentas bancarias, fotos en la nube, dominios — y deja instrucciones cifradas para cada uno. Todo se sella en tu navegador antes de llegar a nuestros servidores.',
+    s2_t: 'Mantente conectado',
+    s2_p: 'Semma te verifica según tu ritmo — un solo toque confirma que estás bien. Si faltan varias verificaciones, el protocolo de escalada comienza, con cuidado y gradualmente.',
+    s3_t: 'Legado entregado',
+    s3_p: 'Solo cuando el protocolo se completa, tus personas elegidas reciben las llaves para desbloquear tus instrucciones. Nada perdido. Nada en el limbo. Tu historia, entregada con cariño.',
+    f_tag: 'Por qué Semma',
+    f_title: 'Construido como un banco. Se siente como una promesa.',
+    f1_t: 'Cifrado de conocimiento cero',
+    f1_p: 'Tus secretos se cifran en tu dispositivo. Solo guardamos cajas selladas — no podríamos mirar dentro aunque quisiéramos.',
+    f2_t: 'El interruptor vivo',
+    f2_p: 'Un sistema de verificación amable que se adapta a tu vida. ¿De viaje? Páusalo. ¿De vuelta? Un toque y Semma vuelve a dormir.',
+    f3_t: 'Guardianes que tú eliges',
+    f3_p: 'Asigna activos distintos a personas distintas. Tu hermano recibe las llaves cripto, tu mejor amiga gestiona tus redes.',
+    f4_t: 'A prueba de falsas alarmas',
+    f4_p: 'Verificación en varias etapas y periodos de espera opcionales garantizan que nada se libere por accidente.',
+    sec_tag: 'Seguridad primero',
+    sec_title: 'Nosotros guardamos la caja.<br>Solo tú tienes la llave.',
+    sec1: 'Cifrado AES-256 en el cliente — los datos se sellan antes de salir de tu dispositivo',
+    sec2: 'Cumplimiento GDPR por diseño, construido en UK',
+    sec3: 'Ninguna contraseña guardada en texto plano. Jamás.',
+    sec4: 'Complementa tu testamento legal — la pieza que tu abogado no puede darte',
+    cta_title: 'Está desde el principio.',
+    cta_sub: 'Únete a la lista de espera y consigue precio de fundador de por vida al lanzar.',
+    footer: 'Hecho con propósito en Londres · © 2026 Semma · Tu legado, entregado.',
+    msg_ok: '✓ Estás en la lista. Bienvenido a Semma.',
+    msg_err: 'Algo salió mal — inténtalo de nuevo.',
+    msg_demo: '✓ Estás en la lista. Bienvenido a Semma. (modo demo)'
+  }
+};
+
+let lang = 'en';
+const langBtn = document.getElementById('langToggle');
+
+function applyLang() {
+  const t = i18n[lang];
+  document.documentElement.lang = lang;
+  langBtn.textContent = lang === 'en' ? 'ES' : 'EN';
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    if (t[key]) el.textContent = t[key];
+  });
+  document.querySelectorAll('[data-i18n-html]').forEach(el => {
+    const key = el.dataset.i18nHtml;
+    if (t[key]) el.innerHTML = t[key];
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+    const key = el.dataset.i18nPh;
+    if (t[key]) el.placeholder = t[key];
+  });
+}
+langBtn.addEventListener('click', () => {
+  lang = lang === 'en' ? 'es' : 'en';
+  applyLang();
+});
+</script>
+</body>
+</html>
