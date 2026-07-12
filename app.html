@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Semma Vault — Your encrypted digital legacy</title>
 <style>
-  /* Mismo sistema de diseño que la landing */
   :root {
     --navy-900: #070D1A;
     --navy-800: #0B1426;
@@ -33,11 +32,12 @@
 
   nav {
     display: flex; align-items: center; justify-content: space-between;
-    padding: 16px 6%;
+    padding: 14px 5%;
     border-bottom: 1px solid rgba(148,163,184,.08);
     background: rgba(7,13,26,.85);
     position: sticky; top: 0; z-index: 50;
     backdrop-filter: blur(14px);
+    flex-wrap: wrap; gap: 10px;
   }
   .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
   .logo-mark {
@@ -48,25 +48,25 @@
   }
   .logo-text { font-size: 19px; font-weight: 800; letter-spacing: 3px; color: var(--text); }
   .logo-sub { font-size: 11px; color: var(--gold-bright); letter-spacing: 2px; margin-left: 4px; }
-  .nav-actions { display: flex; gap: 10px; }
+  .nav-actions { display: flex; gap: 8px; flex-wrap: wrap; }
   .btn {
     border: none; cursor: pointer; font-family: var(--font);
     border-radius: 12px; font-weight: 700; font-size: 14px;
-    padding: 11px 22px; transition: all .25s;
+    padding: 10px 18px; transition: all .25s;
   }
+  .btn:disabled { opacity: .55; cursor: wait; }
   .btn-primary { background: var(--emerald); color: var(--navy-900); }
-  .btn-primary:hover { background: var(--emerald-bright); transform: translateY(-2px); }
+  .btn-primary:hover:not(:disabled) { background: var(--emerald-bright); transform: translateY(-2px); }
+  .btn-gold { background: rgba(212,175,55,.12); color: var(--gold-bright); border: 1px solid rgba(212,175,55,.4); }
+  .btn-gold:hover:not(:disabled) { background: rgba(212,175,55,.22); }
   .btn-ghost {
     background: transparent; color: var(--text-muted);
     border: 1px solid rgba(148,163,184,.25);
   }
-  .btn-ghost:hover { color: var(--text); border-color: var(--text-muted); }
-  .btn-danger { background: transparent; color: var(--red); border: 1px solid rgba(248,113,113,.35); }
-  .btn-danger:hover { background: rgba(248,113,113,.1); }
+  .btn-ghost:hover:not(:disabled) { color: var(--text); border-color: var(--text-muted); }
 
-  main { max-width: 860px; margin: 0 auto; padding: 40px 20px 80px; }
+  main { max-width: 860px; margin: 0 auto; padding: 34px 20px 80px; }
 
-  /* ---- Pantallas (screens) ---- */
   .screen { display: none; animation: fadeIn .4s ease; }
   .screen.active { display: block; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
@@ -77,12 +77,12 @@
     border-radius: var(--radius);
     padding: 36px;
     max-width: 480px;
-    margin: 60px auto 0;
+    margin: 50px auto 0;
   }
-  .card h1 { font-size: 26px; margin-bottom: 8px; }
-  .card p.lead { color: var(--text-muted); font-size: 15px; margin-bottom: 24px; }
+  .card h1 { font-size: 25px; margin-bottom: 8px; }
+  .card p.lead { color: var(--text-muted); font-size: 15px; margin-bottom: 20px; }
   label { display: block; font-size: 13px; font-weight: 600; color: var(--text-muted); margin: 16px 0 6px; }
-  input[type=password], input[type=text], select, textarea {
+  input, select, textarea {
     width: 100%;
     background: var(--navy-700);
     border: 1px solid rgba(148,163,184,.2);
@@ -104,42 +104,66 @@
     background: rgba(212,175,55,.08);
     border: 1px solid rgba(212,175,55,.3);
     border-radius: 12px;
-    padding: 14px 16px;
-    font-size: 13.5px;
+    padding: 13px 16px;
+    font-size: 13px;
     color: var(--gold-bright);
-    margin-top: 20px;
+    margin-top: 18px;
   }
   .error-msg { color: var(--red); font-size: 13.5px; margin-top: 12px; min-height: 18px; }
-  .full { width: 100%; margin-top: 24px; padding: 14px; font-size: 15px; }
+  .info-msg { color: var(--emerald-bright); font-size: 13.5px; margin-top: 12px; min-height: 18px; }
+  .full { width: 100%; margin-top: 22px; padding: 14px; font-size: 15px; }
+  .auth-switch { text-align: center; margin-top: 18px; font-size: 14px; color: var(--text-muted); }
+  .auth-switch a { color: var(--emerald-bright); cursor: pointer; text-decoration: underline; }
 
-  /* Medidor de fuerza de contraseña */
-  .strength { height: 6px; border-radius: 3px; background: var(--navy-700); margin-top: 10px; overflow: hidden; }
-  .strength-bar { height: 100%; width: 0; border-radius: 3px; transition: all .3s; }
+  /* Panel de estado del interruptor */
+  .pulse-panel {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; flex-wrap: wrap;
+    background: linear-gradient(135deg, rgba(16,185,129,.08), rgba(212,175,55,.05));
+    border: 1px solid rgba(16,185,129,.25);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin-bottom: 26px;
+  }
+  .pulse-info { display: flex; align-items: center; gap: 16px; }
+  .pulse-dot {
+    width: 14px; height: 14px; border-radius: 50%;
+    background: var(--emerald-bright);
+    animation: beat 1.6s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+  @keyframes beat {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(52,211,153,.5); }
+    50%      { transform: scale(1.25); box-shadow: 0 0 0 10px rgba(52,211,153,0); }
+  }
+  .pulse-dot.warn { background: var(--gold); }
+  .pulse-dot.danger { background: var(--red); }
+  .pulse-text strong { font-size: 15px; }
+  .pulse-text .sub { font-size: 13px; color: var(--text-muted); }
 
-  /* ---- Vault (bóveda abierta) ---- */
-  .vault-head { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; margin-bottom: 8px; }
-  .vault-head h1 { font-size: 26px; }
-  .vault-sub { color: var(--text-dim); font-size: 13.5px; margin-bottom: 26px; }
-  .vault-sub .lock-icon { color: var(--emerald-bright); }
+  .vault-head { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; margin-bottom: 6px; }
+  .vault-head h1 { font-size: 24px; }
+  .vault-sub { color: var(--text-dim); font-size: 13px; margin-bottom: 20px; }
+  .vault-sub .ok { color: var(--emerald-bright); }
 
-  .asset-grid { display: grid; gap: 14px; margin-top: 22px; }
+  .asset-grid { display: grid; gap: 14px; margin-top: 18px; }
   .asset {
     background: var(--navy-800);
     border: 1px solid rgba(148,163,184,.1);
     border-radius: var(--radius);
-    padding: 20px 22px;
-    display: flex; align-items: flex-start; gap: 16px;
+    padding: 18px 20px;
+    display: flex; align-items: flex-start; gap: 15px;
     transition: border-color .25s, transform .25s;
   }
   .asset:hover { border-color: rgba(16,185,129,.35); transform: translateY(-2px); }
   .asset-emoji {
-    width: 46px; height: 46px; border-radius: 12px; flex-shrink: 0;
-    display: grid; place-items: center; font-size: 22px;
+    width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
+    display: grid; place-items: center; font-size: 21px;
     background: rgba(16,185,129,.1); border: 1px solid rgba(16,185,129,.25);
   }
-  .asset-body { flex: 1; min-width: 0; }
-  .asset-name { font-weight: 700; font-size: 16px; }
-  .asset-cat { font-size: 12px; color: var(--gold-bright); letter-spacing: 1px; text-transform: uppercase; }
+  .asset-body { flex: 1; min-width: 0; cursor: pointer; }
+  .asset-name { font-weight: 700; font-size: 15.5px; }
+  .asset-cat { font-size: 11.5px; color: var(--gold-bright); letter-spacing: 1px; text-transform: uppercase; }
   .asset-notes {
     color: var(--text-muted); font-size: 14px; margin-top: 6px;
     white-space: pre-wrap; word-break: break-word;
@@ -157,12 +181,11 @@
   .icon-btn.del:hover { color: var(--red); border-color: var(--red); }
 
   .empty {
-    text-align: center; padding: 70px 20px; color: var(--text-dim);
-    border: 2px dashed rgba(148,163,184,.15); border-radius: var(--radius); margin-top: 22px;
+    text-align: center; padding: 55px 20px; color: var(--text-dim);
+    border: 2px dashed rgba(148,163,184,.15); border-radius: var(--radius); margin-top: 18px;
   }
-  .empty .big { font-size: 44px; margin-bottom: 12px; }
+  .empty .big { font-size: 40px; margin-bottom: 10px; }
 
-  /* Modal para añadir/editar activo */
   .modal-bg {
     display: none; position: fixed; inset: 0; z-index: 100;
     background: rgba(7,13,26,.8); backdrop-filter: blur(6px);
@@ -173,25 +196,33 @@
     background: var(--navy-800);
     border: 1px solid rgba(148,163,184,.15);
     border-radius: var(--radius);
-    padding: 30px;
+    padding: 28px;
     width: 100%; max-width: 460px;
+    max-height: 90vh; overflow-y: auto;
     animation: fadeIn .3s ease;
   }
-  .modal h2 { font-size: 20px; margin-bottom: 4px; }
-  .modal-actions { display: flex; gap: 10px; margin-top: 24px; }
+  .modal h2 { font-size: 19px; margin-bottom: 4px; }
+  .modal-actions { display: flex; gap: 10px; margin-top: 22px; }
   .modal-actions .btn { flex: 1; }
 
-  .toolbar { display: flex; gap: 10px; flex-wrap: wrap; }
+  .guardian-row {
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--navy-700); border-radius: 12px;
+    padding: 12px 16px; margin-top: 10px; gap: 10px;
+  }
+  .guardian-row .g-name { font-weight: 700; font-size: 14.5px; }
+  .guardian-row .g-email { font-size: 13px; color: var(--text-muted); word-break: break-all; }
 
-  /* Toast de guardado */
   #toast {
     position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
     background: var(--navy-700); border: 1px solid rgba(16,185,129,.4);
     color: var(--emerald-bright); font-size: 14px; font-weight: 600;
     padding: 12px 24px; border-radius: 999px; z-index: 200;
     transition: transform .35s ease; pointer-events: none;
+    max-width: 90vw; text-align: center;
   }
   #toast.show { transform: translateX(-50%) translateY(0); }
+  #toast.err { border-color: rgba(248,113,113,.5); color: var(--red); }
 </style>
 </head>
 <body>
@@ -203,70 +234,77 @@
     <span class="logo-sub">VAULT</span>
   </a>
   <div class="nav-actions" id="navActions" style="display:none;">
-    <button class="btn btn-ghost" id="exportBtn">⬇ Backup</button>
-    <button class="btn btn-ghost" id="lockBtn">🔒 Lock</button>
+    <button class="btn btn-gold" id="checkinBtn">💓 I'm alive</button>
+    <button class="btn btn-ghost" id="guardiansBtn">👥 Guardians</button>
+    <button class="btn btn-ghost" id="exportBtn">⬇</button>
+    <button class="btn btn-ghost" id="lockBtn">🔒 Log out</button>
   </div>
 </nav>
 
 <main>
 
-  <!-- ============ PANTALLA 1: CREAR BÓVEDA ============ -->
-  <div class="screen" id="screenCreate">
+  <!-- ============ PANTALLA: LOGIN / REGISTRO ============ -->
+  <div class="screen active" id="screenAuth">
     <div class="card">
-      <h1>Create your vault 🔐</h1>
-      <p class="lead">Choose a master password. It encrypts everything on this device — it is the ONE key to your legacy.</p>
+      <h1 id="authTitle">Welcome to your vault 🔐</h1>
+      <p class="lead" id="authLead">One password rules everything: your account AND your encryption. We never see it — it never leaves your browser.</p>
 
-      <label for="newPass">Master password</label>
-      <input type="password" id="newPass" autocomplete="new-password" placeholder="Minimum 10 characters">
-      <div class="strength"><div class="strength-bar" id="strengthBar"></div></div>
-      <p class="hint" id="strengthHint">Use a long phrase you'll never forget: e.g. "MiAbuelaHace-Arepas-Los-Domingos-1998!"</p>
+      <label for="authEmail">Email</label>
+      <input type="email" id="authEmail" autocomplete="email" placeholder="you@email.com">
 
-      <label for="newPass2">Repeat master password</label>
-      <input type="password" id="newPass2" autocomplete="new-password" placeholder="Same password again">
+      <label for="authPass">Master password</label>
+      <input type="password" id="authPass" autocomplete="current-password" placeholder="Minimum 10 characters">
 
-      <div class="warn">⚠️ If you forget this password, NOBODY can recover your vault — not even Semma. That's what zero-knowledge means. Write it somewhere safe.</div>
-      <p class="error-msg" id="createError"></p>
-      <button class="btn btn-primary full" id="createBtn">Create encrypted vault</button>
+      <div class="warn" id="authWarn">⚠️ Zero-knowledge: if you forget this password, NOBODY can recover your vault — not even Semma. Write it somewhere safe.</div>
+      <p class="error-msg" id="authError"></p>
+      <button class="btn btn-primary full" id="authBtn">Create account & vault</button>
+      <p class="auth-switch">
+        <span id="switchText">Already have an account?</span>
+        <a id="switchLink">Log in</a>
+      </p>
+      <p class="hint" style="text-align:center; margin-top:14px;" id="wakeHint"></p>
     </div>
   </div>
 
-  <!-- ============ PANTALLA 2: DESBLOQUEAR ============ -->
-  <div class="screen" id="screenUnlock">
-    <div class="card">
-      <h1>Welcome back 👋</h1>
-      <p class="lead">Your vault is sealed. Enter your master password to decrypt it on this device.</p>
-      <label for="unlockPass">Master password</label>
-      <input type="password" id="unlockPass" autocomplete="current-password" placeholder="Your master password">
-      <p class="error-msg" id="unlockError"></p>
-      <button class="btn btn-primary full" id="unlockBtn">Unlock vault</button>
-      <p class="hint" style="margin-top:18px;">🔒 Decryption happens 100% in your browser. Nothing is sent anywhere.</p>
-    </div>
-  </div>
-
-  <!-- ============ PANTALLA 3: BÓVEDA ABIERTA ============ -->
+  <!-- ============ PANTALLA: BÓVEDA ============ -->
   <div class="screen" id="screenVault">
+
+    <div class="pulse-panel">
+      <div class="pulse-info">
+        <div class="pulse-dot" id="pulseDot"></div>
+        <div class="pulse-text">
+          <strong id="pulseTitle">The living switch is watching over you</strong>
+          <div class="sub" id="pulseSub">Loading status…</div>
+        </div>
+      </div>
+      <button class="btn btn-primary" id="checkinBtn2">💓 I'm alive — reset the clock</button>
+    </div>
+
     <div class="vault-head">
       <h1>Your digital legacy</h1>
-      <div class="toolbar">
-        <button class="btn btn-primary" id="addBtn">+ Add asset</button>
-      </div>
+      <button class="btn btn-primary" id="addBtn">+ Add asset</button>
     </div>
-    <p class="vault-sub"><span class="lock-icon">●</span> Encrypted with AES-256-GCM · Only you hold the key · <span id="assetCount">0 assets</span></p>
+    <p class="vault-sub">
+      <span class="ok">●</span> AES-256-GCM, encrypted in your browser ·
+      <span id="syncState">synced to cloud</span> ·
+      <span id="assetCount">0 assets</span>
+    </p>
+
     <div class="asset-grid" id="assetGrid"></div>
     <div class="empty" id="emptyState">
       <div class="big">🗄️</div>
       <p><strong>Your vault is empty.</strong></p>
-      <p style="font-size:14px; margin-top:6px;">Add your first asset: a crypto wallet, a bank account,<br>your photo cloud, or instructions for your loved ones.</p>
+      <p style="font-size:14px; margin-top:6px;">Add your first asset — and then add a Guardian (👥 top right)<br>so someone receives it if the switch ever fires.</p>
     </div>
   </div>
 
 </main>
 
-<!-- ============ MODAL AÑADIR/EDITAR ============ -->
+<!-- ============ MODAL: ACTIVO ============ -->
 <div class="modal-bg" id="modalBg">
   <div class="modal">
     <h2 id="modalTitle">Add asset</h2>
-    <p class="hint">Everything below is encrypted before it is stored.</p>
+    <p class="hint">Encrypted in your browser before being synced.</p>
 
     <label for="assetCat">Category</label>
     <select id="assetCat">
@@ -284,7 +322,7 @@
     <input type="text" id="assetName" placeholder="e.g. Binance account / Google Photos">
 
     <label for="assetNotes">Instructions for your beneficiary</label>
-    <textarea id="assetNotes" placeholder="What is it, where is it, and what should they do with it? (Never write full passwords here in this demo version)"></textarea>
+    <textarea id="assetNotes" placeholder="What is it, where is it, what should they do with it?"></textarea>
 
     <p class="error-msg" id="modalError"></p>
     <div class="modal-actions">
@@ -294,155 +332,246 @@
   </div>
 </div>
 
-<div id="toast">✓ Vault encrypted & saved</div>
+<!-- ============ MODAL: GUARDIANES ============ -->
+<div class="modal-bg" id="guardModalBg">
+  <div class="modal">
+    <h2>Your guardians 👥</h2>
+    <p class="hint">If the switch fires, these people are notified by email. Share your master password with them IN PERSON — Semma never knows it.</p>
+    <div id="guardianList"><p class="hint" style="margin-top:14px;">Loading…</p></div>
+
+    <label for="gName">Name</label>
+    <input type="text" id="gName" placeholder="e.g. My brother Andrés">
+    <label for="gEmail">Email</label>
+    <input type="email" id="gEmail" placeholder="their@email.com">
+    <p class="error-msg" id="gError"></p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" id="gCloseBtn">Close</button>
+      <button class="btn btn-primary" id="gAddBtn">Add guardian</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast">✓ Saved</div>
 
 <script>
 /* ==================================================================
-   SEMMA VAULT — Cifrado de conocimiento cero en el navegador
+   SEMMA VAULT v2 — conectada a tu servidor (Fase 3.5)
    ------------------------------------------------------------------
-   Cómo funciona (¡esto es lo que estás aprendiendo!):
+   Novedades respecto a la v1:
+   · Login/registro contra TU API en Render
+   · La bóveda cifrada se sincroniza con Neon → accesible desde
+     cualquier dispositivo
+   · Botón "I'm alive" → llama a /checkin y reinicia el interruptor
+   · Gestión de guardianes → /guardians
 
-   1. La contraseña maestra NUNCA se guarda. De ella derivamos una
-      clave de cifrado usando PBKDF2 (210.000 iteraciones + salt).
-   2. Con esa clave ciframos TODO el contenido de la bóveda con
-      AES-256-GCM (el mismo estándar que usan los bancos).
-   3. En el disco (localStorage) solo existe un blob cifrado ilegible.
-      Sin la contraseña, es basura matemática imposible de abrir.
+   Seguridad (conocimiento cero, de verdad):
+   · De tu contraseña derivamos DOS claves distintas:
+     - authKey  → se envía a la API como "contraseña" (el servidor
+                  nunca ve la contraseña real)
+     - encKey   → cifra la bóveda; JAMÁS sale del navegador
    ================================================================== */
 
-const STORAGE_KEY = 'semma_vault_v1';
+const API = 'https://semma.onrender.com';   // ← tu servidor
+const STORAGE_KEY = 'semma_vault_v2';
 const enc = new TextEncoder();
 const dec = new TextDecoder();
 
-let cryptoKey = null;   // clave derivada, solo vive en memoria
-let vaultData = null;   // { assets: [...] } descifrado, solo en memoria
-let editingId = null;   // id del activo en edición (null = nuevo)
+let token = null;        // sesión con la API
+let encKey = null;       // clave de cifrado (solo en memoria)
+let vaultData = null;    // contenido descifrado (solo en memoria)
+let vaultSalt = null;    // salt del cifrado (viaja junto al blob)
+let editingId = null;
+let isRegister = true;
 
-/* ---------- utilidades de conversión ---------- */
 const bufToB64 = buf => btoa(String.fromCharCode(...new Uint8Array(buf)));
 const b64ToBuf = b64 => Uint8Array.from(atob(b64), c => c.charCodeAt(0));
+const bufToHex = buf => [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, '0')).join('');
 
-/* ---------- criptografía (Web Crypto API, nativa del navegador) ---------- */
-async function deriveKey(password, salt) {
-  // convertimos la contraseña en material de clave
-  const keyMaterial = await crypto.subtle.importKey(
-    'raw', enc.encode(password), 'PBKDF2', false, ['deriveKey']
-  );
-  // PBKDF2: hace el cálculo 210.000 veces para que un atacante
-  // tarde una eternidad en probar contraseñas
+/* ---------- criptografía ---------- */
+async function pbkdf2(password, saltBytes, usage) {
+  const material = await crypto.subtle.importKey('raw', enc.encode(password), 'PBKDF2', false, ['deriveKey', 'deriveBits']);
+  if (usage === 'bits') {
+    return crypto.subtle.deriveBits({ name: 'PBKDF2', salt: saltBytes, iterations: 210000, hash: 'SHA-256' }, material, 256);
+  }
   return crypto.subtle.deriveKey(
-    { name: 'PBKDF2', salt, iterations: 210000, hash: 'SHA-256' },
-    keyMaterial,
-    { name: 'AES-GCM', length: 256 },
-    false,
-    ['encrypt', 'decrypt']
+    { name: 'PBKDF2', salt: saltBytes, iterations: 210000, hash: 'SHA-256' },
+    material, { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']
   );
 }
 
-async function encryptVault(key, dataObj) {
-  const iv = crypto.getRandomValues(new Uint8Array(12)); // número aleatorio de un solo uso
-  const plaintext = enc.encode(JSON.stringify(dataObj));
-  const ciphertext = await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, plaintext);
-  return { iv: bufToB64(iv), data: bufToB64(ciphertext) };
+// clave de autenticación: derivada de contraseña + email (determinista)
+async function authKey(email, password) {
+  const bits = await pbkdf2(password, enc.encode('semma-auth:' + email), 'bits');
+  return bufToHex(bits); // 64 caracteres hex → esta es la "contraseña" que ve la API
 }
 
-async function decryptVault(key, ivB64, dataB64) {
-  const plaintext = await crypto.subtle.decrypt(
-    { name: 'AES-GCM', iv: b64ToBuf(ivB64) }, key, b64ToBuf(dataB64)
-  );
-  return JSON.parse(dec.decode(plaintext));
+async function encryptVault() {
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const ct = await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, encKey, enc.encode(JSON.stringify(vaultData)));
+  return JSON.stringify({ salt: bufToB64(vaultSalt), iv: bufToB64(iv), data: bufToB64(ct) });
 }
 
-/* ---------- guardar / cargar del disco ---------- */
-function loadStored() {
-  const raw = localStorage.getItem(STORAGE_KEY);
-  return raw ? JSON.parse(raw) : null;
+async function decryptVault(blobStr, password) {
+  const blob = JSON.parse(blobStr);
+  vaultSalt = b64ToBuf(blob.salt);
+  encKey = await pbkdf2(password, vaultSalt, 'key');
+  const pt = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: b64ToBuf(blob.iv) }, encKey, b64ToBuf(blob.data));
+  vaultData = JSON.parse(dec.decode(pt));
 }
 
-async function persist() {
-  const stored = loadStored();
-  const encrypted = await encryptVault(cryptoKey, vaultData);
-  stored.iv = encrypted.iv;
-  stored.data = encrypted.data;
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(stored));
-  showToast();
+/* ---------- llamadas a la API ---------- */
+async function api(path, method = 'GET', body = null, auth = true) {
+  const headers = { 'Content-Type': 'application/json' };
+  if (auth && token) headers['authorization'] = 'Bearer ' + token;
+  const res = await fetch(API + path, {
+    method, headers,
+    body: body ? JSON.stringify(body) : null
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.detail || 'Error ' + res.status);
+  return data;
 }
 
 /* ---------- pantallas ---------- */
-function show(screenId) {
+function show(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById(screenId).classList.add('active');
-  document.getElementById('navActions').style.display =
-    screenId === 'screenVault' ? 'flex' : 'none';
+  document.getElementById(id).classList.add('active');
+  document.getElementById('navActions').style.display = id === 'screenVault' ? 'flex' : 'none';
 }
 
-/* ---------- crear bóveda ---------- */
-const strengthBar = document.getElementById('strengthBar');
-document.getElementById('newPass').addEventListener('input', e => {
-  const v = e.target.value;
-  let score = 0;
-  if (v.length >= 10) score++;
-  if (v.length >= 16) score++;
-  if (/[A-Z]/.test(v) && /[a-z]/.test(v)) score++;
-  if (/\d/.test(v)) score++;
-  if (/[^A-Za-z0-9]/.test(v)) score++;
-  const pct = (score / 5) * 100;
-  strengthBar.style.width = pct + '%';
-  strengthBar.style.background = pct < 40 ? 'var(--red)' : pct < 80 ? 'var(--gold)' : 'var(--emerald)';
-});
+/* ---------- login / registro ---------- */
+const authBtn = document.getElementById('authBtn');
+const switchLink = document.getElementById('switchLink');
 
-document.getElementById('createBtn').addEventListener('click', async () => {
-  const p1 = document.getElementById('newPass').value;
-  const p2 = document.getElementById('newPass2').value;
-  const err = document.getElementById('createError');
+function setAuthMode(register) {
+  isRegister = register;
+  document.getElementById('authTitle').textContent = register ? 'Welcome to your vault 🔐' : 'Welcome back 👋';
+  document.getElementById('authWarn').style.display = register ? 'block' : 'none';
+  authBtn.textContent = register ? 'Create account & vault' : 'Unlock my vault';
+  document.getElementById('switchText').textContent = register ? 'Already have an account?' : 'New to Semma?';
+  switchLink.textContent = register ? 'Log in' : 'Create account';
+  document.getElementById('authError').textContent = '';
+}
+switchLink.addEventListener('click', () => setAuthMode(!isRegister));
+
+authBtn.addEventListener('click', doAuth);
+document.getElementById('authPass').addEventListener('keydown', e => { if (e.key === 'Enter') doAuth(); });
+
+async function doAuth() {
+  const email = document.getElementById('authEmail').value.trim().toLowerCase();
+  const pass = document.getElementById('authPass').value;
+  const err = document.getElementById('authError');
+  const wake = document.getElementById('wakeHint');
   err.textContent = '';
-  if (p1.length < 10) { err.textContent = 'Password must be at least 10 characters.'; return; }
-  if (p1 !== p2) { err.textContent = 'Passwords do not match.'; return; }
+  if (!email.includes('@')) { err.textContent = 'Enter a valid email.'; return; }
+  if (pass.length < 10) { err.textContent = 'Password must be at least 10 characters.'; return; }
 
-  const salt = crypto.getRandomValues(new Uint8Array(16));
-  cryptoKey = await deriveKey(p1, salt);
-  vaultData = { assets: [] };
-  const encrypted = await encryptVault(cryptoKey, vaultData);
+  authBtn.disabled = true;
+  authBtn.textContent = 'Working…';
+  // el servidor gratis se duerme: avisamos si tarda
+  const wakeTimer = setTimeout(() => {
+    wake.textContent = '⏳ Waking up the server (free plan naps) — up to 60s, only the first time…';
+  }, 3000);
 
-  localStorage.setItem(STORAGE_KEY, JSON.stringify({
-    salt: bufToB64(salt),
-    iv: encrypted.iv,
-    data: encrypted.data,
-    created: Date.now()
-  }));
-
-  renderAssets();
-  show('screenVault');
-});
-
-/* ---------- desbloquear ---------- */
-async function tryUnlock() {
-  const pass = document.getElementById('unlockPass').value;
-  const err = document.getElementById('unlockError');
-  err.textContent = '';
-  const stored = loadStored();
   try {
-    const key = await deriveKey(pass, b64ToBuf(stored.salt));
-    vaultData = await decryptVault(key, stored.iv, stored.data); // falla si la contraseña es incorrecta
-    cryptoKey = key;
-    document.getElementById('unlockPass').value = '';
+    const apiPass = await authKey(email, pass);
+    let session;
+    if (isRegister) {
+      session = await api('/register', 'POST', { email, password: apiPass }, false);
+    } else {
+      session = await api('/login', 'POST', { email, password: apiPass }, false);
+    }
+    token = session.token;
+
+    // ¿existe ya una bóveda en la nube?
+    try {
+      const v = await api('/vault');
+      await decryptVault(v.encrypted_blob, pass);   // descifra con TU contraseña
+    } catch (e) {
+      // no hay bóveda → creamos una nueva vacía
+      vaultSalt = crypto.getRandomValues(new Uint8Array(16));
+      encKey = await pbkdf2(pass, vaultSalt, 'key');
+      vaultData = { assets: [] };
+      await api('/vault', 'PUT', { encrypted_blob: await encryptVault() });
+    }
+
+    document.getElementById('authPass').value = '';
     renderAssets();
+    refreshStatus();
     show('screenVault');
-  } catch {
-    err.textContent = 'Wrong password. The vault stays sealed.';
+  } catch (e) {
+    err.textContent = translateError(e.message);
+  } finally {
+    clearTimeout(wakeTimer);
+    wake.textContent = '';
+    authBtn.disabled = false;
+    setAuthMode(isRegister);
   }
 }
-document.getElementById('unlockBtn').addEventListener('click', tryUnlock);
-document.getElementById('unlockPass').addEventListener('keydown', e => { if (e.key === 'Enter') tryUnlock(); });
 
-/* ---------- bloquear ---------- */
+function translateError(msg) {
+  if (String(msg).includes('registrado')) return 'That email is already registered — try "Log in" below.';
+  if (String(msg).includes('incorrectos')) return 'Wrong email or password.';
+  if (String(msg).includes('Failed to fetch')) return 'Cannot reach the server. Check your connection and try again.';
+  return msg;
+}
+
+/* ---------- sincronizar bóveda ---------- */
+async function persist() {
+  const syncEl = document.getElementById('syncState');
+  syncEl.textContent = 'syncing…';
+  try {
+    await api('/vault', 'PUT', { encrypted_blob: await encryptVault() });
+    syncEl.textContent = 'synced to cloud';
+    showToast('✓ Encrypted & synced');
+  } catch (e) {
+    syncEl.textContent = '⚠ sync failed — will retry on next save';
+    showToast('⚠ Could not sync', true);
+  }
+}
+
+/* ---------- estado del interruptor ---------- */
+async function refreshStatus() {
+  try {
+    const s = await api('/status');
+    const dot = document.getElementById('pulseDot');
+    const sub = document.getElementById('pulseSub');
+    const title = document.getElementById('pulseTitle');
+    const left = s.checkin_days - s.days_since_checkin;
+    dot.className = 'pulse-dot' + (s.escalation_stage >= 2 ? ' danger' : s.escalation_stage === 1 ? ' warn' : '');
+    if (s.escalation_stage === 0) {
+      title.textContent = 'The living switch is watching over you';
+      sub.textContent = `Last check-in: ${s.days_since_checkin} day(s) ago · next due in ${left} day(s) · ${s.guardians} guardian(s)`;
+    } else {
+      title.textContent = '⚠ Escalation stage ' + s.escalation_stage + ' active';
+      sub.textContent = 'Press "I\'m alive" to reset everything to normal.';
+    }
+    if (s.guardians === 0) {
+      sub.textContent += ' · ⚠ add a guardian!';
+    }
+  } catch (e) { /* silencioso */ }
+}
+
+async function doCheckin() {
+  try {
+    await api('/checkin', 'POST');
+    showToast('💓 Clock reset — see you soon');
+    refreshStatus();
+  } catch (e) {
+    showToast('⚠ ' + translateError(e.message), true);
+  }
+}
+document.getElementById('checkinBtn').addEventListener('click', doCheckin);
+document.getElementById('checkinBtn2').addEventListener('click', doCheckin);
+
+/* ---------- cerrar sesión ---------- */
 document.getElementById('lockBtn').addEventListener('click', () => {
-  cryptoKey = null;   // borramos la clave de la memoria
-  vaultData = null;
-  show('screenUnlock');
+  token = null; encKey = null; vaultData = null; vaultSalt = null;
+  show('screenAuth');
+  setAuthMode(false);
 });
 
-/* ---------- renderizar activos ---------- */
+/* ---------- activos ---------- */
 const CAT_EMOJI = {
   crypto: '₿', bank: '🏦', photos: '📷', social: '💬',
   domain: '🌐', subscription: '🔁', document: '📄', other: '📦'
@@ -471,7 +600,6 @@ function renderAssets() {
         <button class="icon-btn" title="Edit">✏️</button>
         <button class="icon-btn del" title="Delete">🗑</button>
       </div>`;
-    // textContent evita inyecciones de HTML (buena práctica de seguridad)
     el.querySelector('.asset-name').textContent = a.name;
     el.querySelector('.asset-notes').textContent = a.notes || '(no instructions)';
     el.querySelector('.asset-body').addEventListener('click', () => el.classList.toggle('open'));
@@ -479,15 +607,15 @@ function renderAssets() {
     el.querySelector('.del').addEventListener('click', async () => {
       if (confirm(`Delete "${a.name}" from your vault?`)) {
         vaultData.assets = vaultData.assets.filter(x => x.id !== a.id);
-        await persist();
         renderAssets();
+        await persist();
       }
     });
     grid.appendChild(el);
   }
 }
 
-/* ---------- modal añadir/editar ---------- */
+/* ---------- modal activo ---------- */
 const modalBg = document.getElementById('modalBg');
 
 function openModal(id = null) {
@@ -517,30 +645,75 @@ document.getElementById('saveBtn').addEventListener('click', async () => {
   const name = document.getElementById('assetName').value.trim();
   const cat = document.getElementById('assetCat').value;
   const notes = document.getElementById('assetNotes').value.trim();
-  const err = document.getElementById('modalError');
-  if (!name) { err.textContent = 'Give this asset a name.'; return; }
+  if (!name) { document.getElementById('modalError').textContent = 'Give this asset a name.'; return; }
 
   if (editingId) {
     const a = vaultData.assets.find(x => x.id === editingId);
     a.name = name; a.cat = cat; a.notes = notes;
   } else {
-    vaultData.assets.push({
-      id: crypto.randomUUID(),
-      name, cat, notes,
-      added: Date.now()
-    });
+    vaultData.assets.push({ id: crypto.randomUUID(), name, cat, notes, added: Date.now() });
   }
-  await persist();
   renderAssets();
   modalBg.classList.remove('open');
+  await persist();
+});
+
+/* ---------- guardianes ---------- */
+const guardModalBg = document.getElementById('guardModalBg');
+document.getElementById('guardiansBtn').addEventListener('click', async () => {
+  guardModalBg.classList.add('open');
+  loadGuardians();
+});
+document.getElementById('gCloseBtn').addEventListener('click', () => guardModalBg.classList.remove('open'));
+guardModalBg.addEventListener('click', e => { if (e.target === guardModalBg) guardModalBg.classList.remove('open'); });
+
+async function loadGuardians() {
+  const list = document.getElementById('guardianList');
+  try {
+    const gs = await api('/guardians');
+    list.innerHTML = gs.length ? '' : '<p class="hint" style="margin-top:14px;">No guardians yet — add your first below.</p>';
+    for (const g of gs) {
+      const row = document.createElement('div');
+      row.className = 'guardian-row';
+      row.innerHTML = `<div><div class="g-name"></div><div class="g-email"></div></div>
+                       <button class="icon-btn del" title="Remove">🗑</button>`;
+      row.querySelector('.g-name').textContent = g.name;
+      row.querySelector('.g-email').textContent = g.email;
+      row.querySelector('.del').addEventListener('click', async () => {
+        if (confirm(`Remove ${g.name} as guardian?`)) {
+          await api('/guardians/' + g.id, 'DELETE');
+          loadGuardians();
+          refreshStatus();
+        }
+      });
+      list.appendChild(row);
+    }
+  } catch (e) {
+    list.innerHTML = '<p class="error-msg">Could not load guardians.</p>';
+  }
+}
+
+document.getElementById('gAddBtn').addEventListener('click', async () => {
+  const name = document.getElementById('gName').value.trim();
+  const email = document.getElementById('gEmail').value.trim();
+  const err = document.getElementById('gError');
+  err.textContent = '';
+  if (!name || !email.includes('@')) { err.textContent = 'Name and a valid email, please.'; return; }
+  try {
+    await api('/guardians', 'POST', { name, email });
+    document.getElementById('gName').value = '';
+    document.getElementById('gEmail').value = '';
+    loadGuardians();
+    refreshStatus();
+    showToast('✓ Guardian added');
+  } catch (e) {
+    err.textContent = translateError(e.message);
+  }
 });
 
 /* ---------- backup cifrado ---------- */
-document.getElementById('exportBtn').addEventListener('click', () => {
-  // exportamos el blob CIFRADO tal cual: la copia es segura incluso si
-  // alguien la roba, porque sin la contraseña no puede abrirla
-  const stored = localStorage.getItem(STORAGE_KEY);
-  const blob = new Blob([stored], { type: 'application/json' });
+document.getElementById('exportBtn').addEventListener('click', async () => {
+  const blob = new Blob([await encryptVault()], { type: 'application/json' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   a.download = 'semma-vault-backup-' + new Date().toISOString().slice(0, 10) + '.json';
@@ -550,15 +723,16 @@ document.getElementById('exportBtn').addEventListener('click', () => {
 
 /* ---------- toast ---------- */
 let toastTimer;
-function showToast() {
+function showToast(msg, isErr = false) {
   const t = document.getElementById('toast');
-  t.classList.add('show');
+  t.textContent = msg;
+  t.className = isErr ? 'err show' : 'show';
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
 }
 
 /* ---------- arranque ---------- */
-show(loadStored() ? 'screenUnlock' : 'screenCreate');
+setAuthMode(true);
 </script>
 </body>
 </html>
