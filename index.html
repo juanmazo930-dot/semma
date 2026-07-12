@@ -443,6 +443,9 @@
     </form>
     <p class="form-msg" id="formMsg" role="status"></p>
     <p class="hero-trust" data-i18n="trust">🔒 Zero-knowledge encryption. Not even we can read your vault.</p>
+    <p style="margin-top:16px; animation: fadeUp .8s .7s ease both;">
+      <a href="app.html" style="color:var(--gold-bright); font-weight:700; font-size:15px; text-decoration:none; border-bottom:1px solid rgba(212,175,55,.4); padding-bottom:2px;" data-i18n="beta_link">🚀 Or open the vault now — free beta</a>
+    </p>
   </div>
 
   <div class="hero-right">
@@ -597,6 +600,11 @@
 <footer>
   <span class="logo-text">SEMMA</span>
   <p style="margin-top:10px;" data-i18n="footer">Made with purpose in London · © 2026 Semma · Your legacy, delivered.</p>
+  <p style="margin-top:8px;">
+    <a href="app.html" style="color:var(--emerald-bright); text-decoration:none;" data-i18n="foot_vault">Open the vault (beta)</a>
+    <span style="color:var(--text-dim);"> · </span>
+    <a href="legal.html" style="color:var(--text-dim); text-decoration:none;" data-i18n="foot_legal">Terms & Privacy</a>
+  </p>
 </footer>
 
 <script>
@@ -672,7 +680,7 @@ document.querySelectorAll('.stat-num').forEach(el => statObserver.observe(el));
    Replace FORM_ENDPOINT with your free Formspree URL:
    https://formspree.io  →  e.g. 'https://formspree.io/f/abcd1234'
    ============================================================ */
-const FORM_ENDPOINT = 'https://formspree.io/f/xbdnrzzp'; // ← pega aquí tu endpoint de Formspree
+const FORM_ENDPOINT = 'https://formspree.io/f/xbdnrzzp';
 
 function bindForm(formId, inputId, msgId) {
   const form = document.getElementById(formId);
@@ -754,7 +762,10 @@ const i18n = {
     footer: 'Made with purpose in London · © 2026 Semma · Your legacy, delivered.',
     msg_ok: "✓ You're on the list. Welcome to Semma.",
     msg_err: 'Something went wrong — please try again.',
-    msg_demo: "✓ You're on the list. Welcome to Semma. (demo mode)"
+    msg_demo: "✓ You're on the list. Welcome to Semma. (demo mode)",
+    beta_link: '🚀 Or open the vault now — free beta',
+    foot_vault: 'Open the vault (beta)',
+    foot_legal: 'Terms & Privacy'
   },
   es: {
     nav_cta: 'Únete a la lista',
@@ -798,7 +809,10 @@ const i18n = {
     footer: 'Hecho con propósito en Londres · © 2026 Semma · Tu legado, entregado.',
     msg_ok: '✓ Estás en la lista. Bienvenido a Semma.',
     msg_err: 'Algo salió mal — inténtalo de nuevo.',
-    msg_demo: '✓ Estás en la lista. Bienvenido a Semma. (modo demo)'
+    msg_demo: '✓ Estás en la lista. Bienvenido a Semma. (modo demo)',
+    beta_link: '🚀 O abre la bóveda ahora — beta gratis',
+    foot_vault: 'Abrir la bóveda (beta)',
+    foot_legal: 'Términos y Privacidad'
   }
 };
 
