@@ -371,4 +371,28 @@ def run_checks(x_admin_key: str = Header(...), db: Session = Depends(get_db)):
 
 
 # ------------------------------------------------------------
-# SOLO PARA PRUEBAS — simula que 
+# SOLO PARA PRUEBAS: simula que un usuario lleva dias sin responder.
+# Se usa desde el navegador:
+#   /admin/simulate-overdue?email=X&days=45&key=TU_ADMIN_KEY
+# Borralo (o comentalo) cuando tengas usuarios reales.
+# ------------------------------------------------------------
+@app.get("/admin/simulate-overdue")
+def simulate_overdue(email: str, key: str, days: int = 45, db: Session = Depends(get_db)):
+    if not hmac.compare_digest(key, ADMIN_KEY):
+        raise HTTPException(403, "Clave de administrador incorrecta")
+    user = db.scalar(select(User).where(User.email == email.lower()))
+    if not user:
+        raise HTTPException(404, "Usuario no encontrado")
+    user.last_checkin = datetime.now(timezone.utc) - timedelta(days=days)
+    user.escalation_stage = 0
+    db.commit()
+    return {
+        "simulado": f"{email} lleva ahora {days} dias sin responder",
+        "siguiente_paso": "Ejecuta el cron (TEST RUN en cron-job.org) 3 veces: "
+                          "1a recordatorio, 2a aviso urgente, 3a aviso a guardianes",
+    }
+
+
+@app.get("/")
+def root():
+    return {"service": "Semma API", "status": "alive", "docs": "/docs"}
