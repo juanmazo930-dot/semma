@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Semma — Terms of Service & Privacy Policy</title>
+<style>
+  :root {
+    --navy-900: #070D1A;
+    --navy-800: #0B1426;
+    --navy-700: #101D38;
+    --emerald: #10B981;
+    --emerald-bright: #34D399;
+    --gold-bright: #F0CE5E;
+    --text: #F8FAFC;
+    --text-muted: #94A3B8;
+    --text-dim: #64748B;
+    --font: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    --font-serif: Georgia, serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: var(--font);
+    background: var(--navy-900);
+    color: var(--text);
+    line-height: 1.75;
+  }
+  nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 6%;
+    border-bottom: 1px solid rgba(148,163,184,.08);
+    background: rgba(7,13,26,.85);
+    position: sticky; top: 0; backdrop-filter: blur(14px);
+  }
+  .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .logo-mark {
+    width: 36px; height: 36px; background: var(--emerald); border-radius: 10px;
+    display: grid; place-items: center; font-family: var(--font-serif);
+    font-size: 22px; font-weight: bold; color: var(--navy-900);
+  }
+  .logo-text { font-size: 19px; font-weight: 800; letter-spacing: 3px; color: var(--text); }
+  .back { color: var(--emerald-bright); text-decoration: none; font-size: 14px; font-weight: 600; }
+  .back:hover { text-decoration: underline; }
+
+  main { max-width: 760px; margin: 0 auto; padding: 50px 22px 90px; }
+  h1 { font-size: 32px; margin-bottom: 6px; letter-spacing: -.5px; }
+  .updated { color: var(--text-dim); font-size: 13.5px; margin-bottom: 40px; }
+  h2 {
+    font-size: 21px; margin: 42px 0 12px;
+    color: var(--emerald-bright);
+  }
+  h3 { font-size: 16.5px; margin: 26px 0 8px; color: var(--gold-bright); }
+  p, li { color: var(--text-muted); font-size: 15.5px; margin-bottom: 12px; }
+  ul { padding-left: 22px; margin-bottom: 14px; }
+  strong { color: var(--text); }
+  .highlight {
+    background: rgba(16,185,129,.07);
+    border: 1px solid rgba(16,185,129,.25);
+    border-radius: 14px;
+    padding: 20px 24px;
+    margin: 22px 0;
+  }
+  .highlight p { margin-bottom: 0; }
+  a { color: var(--emerald-bright); }
+  .divider { border: none; border-top: 1px solid rgba(148,163,184,.12); margin: 60px 0; }
+  footer {
+    padding: 34px 6%; text-align: center;
+    color: var(--text-dim); font-size: 13px;
+    border-top: 1px solid rgba(148,163,184,.08);
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="index.html">
+    <span class="logo-mark">S</span>
+    <span class="logo-text">SEMMA</span>
+  </a>
+  <a class="back" href="index.html">← Back to home</a>
+</nav>
+
+<main>
+  <h1>Terms of Service</h1>
+  <p class="updated">Last updated: 12 July 2026 · Beta version</p>
+
+  <div class="highlight">
+    <p><strong>The short version:</strong> Semma stores encrypted boxes we cannot open. Your master password never reaches us — if you lose it, your data is unrecoverable by design. Semma is a delivery service for your instructions; it is not a will, not legal advice, and not a financial custodian. During beta, use it alongside — never instead of — proper estate planning.</p>
+  </div>
+
+  <h2>1. What Semma is</h2>
+  <p>Semma ("we", "us") is a digital legacy service. It lets you store encrypted instructions about your digital assets and deliver them to people you designate ("Guardians") if you stop responding to periodic check-ins ("the living switch").</p>
+
+  <h2>2. What Semma is not</h2>
+  <ul>
+    <li><strong>Not a legal will.</strong> Semma does not replace a legally executed will or any formal estate-planning instrument. Consult a solicitor for legal advice.</li>
+    <li><strong>Not a custodian.</strong> We never hold your money, cryptocurrency, or property. We store only encrypted text you write.</li>
+    <li><strong>Not a password manager.</strong> During beta, we recommend you do not store complete credentials. Store locations and instructions instead (e.g. "the seed phrase is in the safe").</li>
+  </ul>
+
+  <h2>3. Zero-knowledge encryption</h2>
+  <p>Your vault is encrypted in your browser with AES-256-GCM before it reaches our servers. Your master password never leaves your device. This means:</p>
+  <ul>
+    <li>We <strong>cannot</strong> read, recover, or reset your vault.</li>
+    <li>If you forget your master password, your vault contents are <strong>permanently lost</strong>. This is a feature of the security model, not a bug.</li>
+    <li>Your Guardians can only decrypt your vault with the master password you chose to share with them personally. Semma never knows or transmits it.</li>
+  </ul>
+
+  <h2>4. The living switch</h2>
+  <p>You choose a check-in interval. If you stop responding, an escalation protocol runs: a reminder to you, then an urgent warning, and finally an email notification to your Guardians. You can reset the protocol at any time by checking in. We make reasonable efforts to deliver emails but cannot guarantee delivery (spam filters, wrong addresses, and outages exist). <strong>You are responsible for keeping your and your Guardians' email addresses current.</strong></p>
+
+  <h2>5. Beta status</h2>
+  <p>Semma is currently in beta. The service is provided "as is", free of charge, without warranties of any kind. We may experience downtime, change features, or — with reasonable notice by email — discontinue the service. We recommend keeping an exported backup of your encrypted vault (the ⬇ button in the app).</p>
+
+  <h2>6. Your responsibilities</h2>
+  <ul>
+    <li>You must be 18 or older and provide accurate information.</li>
+    <li>You will not use Semma for unlawful content or purposes.</li>
+    <li>You are responsible for sharing your master password with your Guardians securely and in person.</li>
+  </ul>
+
+  <h2>7. Liability</h2>
+  <p>To the maximum extent permitted by law, Semma shall not be liable for indirect or consequential losses, including loss of access to digital assets, arising from your use of the service, forgotten passwords, undelivered emails, or actions taken by your Guardians. Nothing in these terms excludes liability that cannot be excluded under the law of England and Wales.</p>
+
+  <h2>8. Governing law</h2>
+  <p>These terms are governed by the law of England and Wales.</p>
+
+  <hr class="divider">
+
+  <h1>Privacy Policy</h1>
+  <p class="updated">Last updated: 12 July 2026</p>
+
+  <div class="highlight">
+    <p><strong>The short version:</strong> We collect the minimum possible: your email, your Guardians' names and emails, check-in timestamps, and an encrypted blob we cannot read. We don't sell data, we don't run ads, we don't use tracking cookies.</p>
+  </div>
+
+  <h2>1. Who we are</h2>
+  <p>Semma is operated from London, United Kingdom. Contact: <a href="mailto:juanmazo930@gmail.com">juanmazo930@gmail.com</a>. For the purposes of UK GDPR, Semma is the data controller of the personal data described below.</p>
+
+  <h2>2. What we collect and why</h2>
+  <h3>Data you give us</h3>
+  <ul>
+    <li><strong>Your email address</strong> — to create your account and send check-in emails (legal basis: contract).</li>
+    <li><strong>A derived authentication key</strong> — a cryptographic hash generated in your browser. We never receive your actual password (legal basis: contract).</li>
+    <li><strong>Your encrypted vault</strong> — an encrypted blob we cannot decrypt or read (legal basis: contract).</li>
+    <li><strong>Guardian names and emails</strong> — to notify them if your protocol activates (legal basis: legitimate interest — please tell your Guardians you have added them).</li>
+    <li><strong>Waitlist email</strong> (landing page) — to notify you about the launch (legal basis: consent; unsubscribe anytime).</li>
+  </ul>
+  <h3>Data we generate</h3>
+  <ul>
+    <li><strong>Check-in timestamps and escalation stage</strong> — to run the living switch (legal basis: contract).</li>
+  </ul>
+
+  <h2>3. What we never do</h2>
+  <ul>
+    <li>We never sell or rent your data.</li>
+    <li>We never read your vault — we can't.</li>
+    <li>We don't use advertising or tracking cookies.</li>
+  </ul>
+
+  <h2>4. Where your data lives</h2>
+  <p>Our infrastructure providers: Render (application server, EU region), Neon (database, EU region), Resend (email delivery), GitHub Pages (static website), and Formspree (waitlist form). Each processes data on our behalf under their own GDPR-compliant terms.</p>
+
+  <h2>5. How long we keep it</h2>
+  <p>Your account data is kept while your account is active. If your escalation protocol completes (stage 3), we retain the encrypted vault so your Guardians can access it. You may delete your account and all associated data at any time by emailing us.</p>
+
+  <h2>6. Your rights (UK GDPR)</h2>
+  <p>You have the right to access, correct, export, restrict, object to processing of, and delete your personal data, and the right to complain to the ICO (<a href="https://ico.org.uk" rel="noopener">ico.org.uk</a>). Email us and we will respond within 30 days.</p>
+
+  <h2>7. Changes</h2>
+  <p>If we materially change this policy, we will email registered users before the change takes effect.</p>
+</main>
+
+<footer>
+  <span style="letter-spacing:3px; font-weight:700;">SEMMA</span><br>
+  Made with purpose in London · © 2026 Semma ·
+  <a href="index.html">Home</a> · <a href="app.html">Vault</a>
+</footer>
+
+</body>
+</html>
