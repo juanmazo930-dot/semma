@@ -370,6 +370,5 @@ def run_checks(x_admin_key: str = Header(...), db: Session = Depends(get_db)):
     return {"checked_at": str(now), "actions": actions or ["sin cambios"]}
 
 
-@app.get("/")
-def root():
-    return {"service": "Semma API", "status": "alive", "docs": "/docs"}
+# ------------------------------------------------------------
+# SOLO PARA PRUEBAS — simula que 
